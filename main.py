@@ -20,26 +20,12 @@ def menu() -> int:
             if (menu_item < 1) or (menu_item > 6):
                 print('Что-то пошло не так =(')
                 print('Некорректно введен пункт меню (значение не попадает в диапозон от 1 до 6. Попробуйте снова.')
+            else:
+                break
 
         except ValueError:
             print('Что-то пошло не так =(')
             print('Неверно введен пункт меню (необходимо ввести цифру). Попробуйте снова')
-
-    return menu_item
-
-
-def back_to_menu() -> int:
-    """Функция возврата в меню
-    Выходные данные:
-    num - номер пункта меню"""
-
-    answer = ''
-
-    while answer != 'да':
-        print('Вернуться в меню?(для возврата напишите "да")\n')
-        answer = input()
-
-    menu_item = menu()
 
     return menu_item
 
@@ -62,8 +48,14 @@ def check_data(data: dict):
               '{0:<12s}'.format(val[1]),
               key.center(17), val[2].center(12))
 
+    answer = ''
 
-def new_data(data: dict):
+    while answer != 'да':
+        print('Вернуться в меню?(для возврата напишите "да")')
+        answer = input()
+
+
+def new_data(data: dict) -> dict:
     """Функция добавления новой записи в базу данных
     Входные данные:
     data - база данных
@@ -95,19 +87,20 @@ def new_data(data: dict):
 
             answer = input('Для того, чтобы продолжать нажмите любую клавишу. Для выхода нажмите "q" ').lower()
             if answer == 'q':
-                back_to_menu()
+                break
 
         elif answer == 'нет':
-            back_to_menu()
+            break
 
         else:
             print('Что- то пошло не так =(')
             print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
             continue
 
+        return data
 
 
-def delete_data(data: dict):
+def delete_data(data: dict) -> dict:
     """Функция удаления элемента из базы данных
     Входные данные:
     data - база данных
@@ -115,7 +108,7 @@ def delete_data(data: dict):
     data - база данных"""
 
 
-def change_data(data: dict):
+def change_data(data: dict) -> dict:
     """Функция изменения элемента в базе данных
     Входные данные:
     data - база данных
@@ -150,25 +143,20 @@ data = {'89105632512': ['Шарапов', 'Василий',
         '89802364565': ['Сорокин', 'Назар',
                         '15.07.1995']}
 
-num = menu()
 
 while True:
+    num = menu()
     match num:
         case 1:
             check_data(data)
-            back_to_menu()
         case 2:
-            new_data(data)
-            back_to_menu()
+            data = new_data(data)
         case 3:
-            delete_data(data)
-            back_to_menu()
+            data = delete_data(data)
         case 4:
-            change_data(data)
-            back_to_menu()
+            data = change_data(data)
         case 5:
             find_phone_number(data)
-            back_to_menu()
         case 6:
             print('Программа завершает работу')
             break
