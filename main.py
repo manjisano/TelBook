@@ -1,9 +1,12 @@
+from prettytable import PrettyTable
+
+
 def menu() -> int:
     """Функция вывода меню
     Выходные данные:
     num - номер пункта меню"""
 
-    #Вывод меню
+    # Вывод меню
     print(' МЕНЮ '.center(40, "─"))
     print('1. Просмотр всех записей в базе данных')
     print('2. Добавление записей')
@@ -19,7 +22,7 @@ def menu() -> int:
 
             if (menu_item < 1) or (menu_item > 6):
                 print('Что-то пошло не так =(')
-                print('Некорректно введен пункт меню (значение не попадает в диапозон от 1 до 6. Попробуйте снова.')
+                print('Некорректно введен пункт меню (значение не попадает в диапозон от 1 до 6). Попробуйте снова.')
             else:
                 break
 
@@ -35,21 +38,35 @@ def check_data(data: dict):
     Входные данные:
     data - база данных"""
 
-    print('Фамилия'.center(15), 'Имя'.center(12),
-          'Телефон'.center(17),
-          'Дата рождения'.center(15))
+    #Настройка таблицы
+    tab3 = PrettyTable(title='Список учащихся', border=True, header=True,
+                       vertical_char='│',
+                       horizontal_char='─',
+                       junction_char='┼',
+                       left_junction_char='├',
+                       right_junction_char='┤',
+                       top_left_junction_char='┌',
+                       top_right_junction_char='┐',
+                       top_junction_char='┬',
+                       bottom_junction_char='┴',
+                       bottom_right_junction_char='┘',
+                       bottom_left_junction_char='└',
+                       start=0,
+                       )
 
-    print(''.center(15, '-'), ''.center(12, '-'),
-          ''.center(17, '-'), ''.center(15, '-'))
+    tab3.field_names = ['Фамилия', 'Имя', 'Телефон']
+    tab3.align['Фамилия'] = 'l'
+    tab3.align['Имя'] = 'с'
+    tab3.align['Телефон'] = 'r'
+    tab3.sortby = 'Фамилия'
 
+    # Заполнение таблицы значениями из словаря
     for key, val in data.items():
-
-        print('{0:<15s}'.format(val[0]),
-              '{0:<12s}'.format(val[1]),
-              key.center(17), val[2].center(12))
+        a = val + [key]
+        tab3.add_row(a)
+    print(tab3)
 
     answer = ''
-
     while answer != 'да':
         print('Вернуться в меню?(для возврата напишите "да")')
         answer = input()
@@ -64,20 +81,28 @@ def new_data(data: dict) -> dict:
 
     while True:
 
-        answer = ''
         print('Хотите добавить запись?')
         answer = input().lower()
 
         if answer == 'да':
-
-            print('Введите Имя Фамилию нового учащегося:')
-            surname, name = input().split()
-
-            print(f'Введите номер телефона {surname.title()} {name.title()}: ')
-            phone_number = ''
-
             while True:
+
+                print('Введите фамилию и имя нового учащегося:')
+                surname, name = input().split()
+                # Проверка на ввод букв
+                if not (surname.isalpha() and name.isalpha()):
+                    print('Что- то пошло не так =(')
+                    print('Скорее всего вместо букв были использованы цифры.')
+                    continue
+
+                print('Введите номер телефона: ')
                 phone_number = input()
+                # Проверка на ввод цифр
+                if not phone_number.isdigit():
+                    print('Что- то пошло не так =(')
+                    print('Скорее всего вместо цифр были использованы буквы.')
+                    continue
+                # Проверка на кол-во цифр в номере
                 if len(phone_number) == 11:
                     break
                 print('Неправильно веден номер. Кол-во цифр больше или меньше нужного.')
@@ -85,8 +110,8 @@ def new_data(data: dict) -> dict:
             data[phone_number] = [surname, name]
             print('Ученик успешно добавлен')
 
-            answer = input('Для того, чтобы продолжать нажмите любую клавишу. Для выхода нажмите "q" ').lower()
-            if answer == 'q':
+            answer = input('Для того, чтобы продолжить нажмите любую клавишу. Для выхода нажмите "1" ').lower()
+            if answer == '1':
                 break
 
         elif answer == 'нет':
@@ -107,6 +132,27 @@ def delete_data(data: dict) -> dict:
     Выходные данные:
     data - база данных"""
 
+    while True:
+        print('Хотите удалить запись?')
+        answer = input().lower()
+        if answer == 'да':
+            print('Введите фамилию учащегося, которого хотите удалить из базы: ')
+            sn = input()
+            if not sn.isalpha():
+                print('Что- то пошло не так =(')
+                print('Скорее всего вместо букв были использованы цифры.')
+                break
+            flag = True
+            for val in data.values():
+
+        elif answer == 'нет':
+            break
+        else:
+            print('Что- то пошло не так =(')
+            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
+            continue
+
+        return data
 
 def change_data(data: dict) -> dict:
     """Функция изменения элемента в базе данных
@@ -124,25 +170,15 @@ def find_phone_number(data: dict):
     data - база данных"""
 
 
-data = {'89105632512': ['Шарапов', 'Василий',
-                        '10.12.2001'],
-        '89156214578': ['Кузьмин', 'Иннокентий',
-                        '12.05.1998'],
-        '89201235896': ['Добрынин', 'Фёдор',
-                        '13.01.2000'],
-        '89523215613': ['Сорокин', 'Егор',
-                        '25.05.1998'],
-        '89156321547': ['Мартышкин', 'Макар',
-                        '16.06.1996'],
-        '89109029755': ['Рожкин', 'Роман',
-                        '31.12.2002'],
-        '89105632532': ['Маврина', 'Марина',
-                        '08.03.2003'],
-        '89206548912': ['Дубинина', 'Евгения',
-                        '17.08.2000'],
-        '89802364565': ['Сорокин', 'Назар',
-                        '15.07.1995']}
-
+data = {'89105632512': ['Шарапов', 'Василий'],
+        '89156214578': ['Кузьмин', 'Иннокентий'],
+        '89201235896': ['Добрынин', 'Фёдор'],
+        '89523215613': ['Сорокин', 'Егор'],
+        '89156321547': ['Мартышкин', 'Макар'],
+        '89109029755': ['Рожкин', 'Роман'],
+        '89105632532': ['Маврина', 'Марина'],
+        '89206548912': ['Дубинина', 'Евгения'],
+        '89802364565': ['Сорокин', 'Назар']}
 
 while True:
     num = menu()
