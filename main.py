@@ -38,7 +38,7 @@ def check_data(data: dict):
     Входные данные:
     data - база данных"""
 
-    #Настройка таблицы
+    # Настройка таблицы
     tab3 = PrettyTable(title='Список учащихся', border=True, header=True,
                        vertical_char='│',
                        horizontal_char='─',
@@ -136,38 +136,122 @@ def delete_data(data: dict) -> dict:
         print('Хотите удалить запись?')
         answer = input().lower()
         if answer == 'да':
+
             print('Введите фамилию учащегося, которого хотите удалить из базы: ')
-            sn = input()
-            if not sn.isalpha():
+            surname = input().capitalize()
+            if not surname.isalpha():
                 print('Что- то пошло не так =(')
                 print('Скорее всего вместо букв были использованы цифры.')
                 break
-            flag = True
+            k = 0
             for val in data.values():
+                if val[0] == surname:
+                    k += 1
+            if k >= 2:
+                print('Учащихся с такой фамилие несколько. Уточните Имя')
+                name = input().capitalize()
+                if not name.isalpha():
+                    print('Что- то пошло не так =(')
+                    print('Скорее всего вместо букв были использованы цифры.')
+                    break
+
+            flag = True
+            for key, val in data.items():
+                if k < 2:
+                    if val[0] == surname:
+                        del_key = key
+                        flag = False
+                        break
+                else:
+                    if val[0] == surname and val[1] == name:
+                        del_key = key
+                        flag = False
+                        break
+
+            if flag:
+                print('Такого учащегося нет')
+            else:
+                del data[del_key]
+                print('Учащийся успешно удален')
+                continue
 
         elif answer == 'нет':
             break
+
         else:
             print('Что- то пошло не так =(')
             print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
             continue
+    return data
 
-        return data
 
 def change_data(data: dict) -> dict:
     """Функция изменения элемента в базе данных
     Входные данные:
     data - база данных
     Выходные данные:
+    new_data - база данных
     data - база данных"""
+    while True:
+        print('Хотите изменить запись?')
+        answer = input().lower()
+
+        if answer == 'да':
+            print('Введите фамилию ')
 
 
 def find_phone_number(data: dict):
     """Функция поиска номера телефона по фамилии
     Входные данные:
-    data - база данных
-    Выходные данные:
     data - база данных"""
+    while True:
+        print('Хотите удалить запись?')
+        answer = input().lower()
+        if answer == 'да':
+            print('Введите фамилию учащегося, чей номер необходимо найти: ')
+            surname = input().capitalize()
+            if not surname.isalpha():
+                print('Что- то пошло не так =(')
+                print('Скорее всего вместо букв были использованы цифры.')
+                break
+            k = 0
+            for val in data.values():
+                if val[0] == surname:
+                    k += 1
+            if k >= 2:
+                print('Учащихся с такой фамилие несколько. Уточните Имя')
+                name = input().capitalize()
+                if not name.isalpha():
+                    print('Что- то пошло не так =(')
+                    print('Скорее всего вместо букв были использованы цифры.')
+                    break
+
+            flag = True
+            for key, val in data.items():
+                if k < 2:
+                    if val[0] == surname:
+                        find_key = key
+                        flag = False
+                        break
+                else:
+                    if val[0] == surname and val[1] == name:
+                        find_key = key
+                        flag = False
+                        break
+
+            if flag:
+                print('Такого учащегося нет')
+            else:
+                print(f'Номер телефона учащегося {surname} - {find_key}')
+                continue
+
+        elif answer == 'нет':
+            break
+
+        else:
+            print('Что-то пошло не так =(')
+            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
+            continue
 
 
 data = {'89105632512': ['Шарапов', 'Василий'],
