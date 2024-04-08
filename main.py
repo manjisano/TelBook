@@ -107,7 +107,7 @@ def new_data(data: dict) -> dict:
                     break
                 print('Неправильно веден номер. Кол-во цифр больше или меньше нужного.')
 
-            data[phone_number] = [surname, name]
+            data[phone_number] = [surname.capitalize(), name.capitalize()]
             print('Ученик успешно добавлен')
 
             answer = input('Для того, чтобы продолжить нажмите любую клавишу. Для выхода нажмите "1" ').lower()
@@ -122,7 +122,7 @@ def new_data(data: dict) -> dict:
             print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
             continue
 
-        return data
+    return data
 
 
 def delete_data(data: dict) -> dict:
@@ -198,6 +198,101 @@ def change_data(data: dict) -> dict:
 
         if answer == 'да':
             print('Введите фамилию ')
+            surname = input().capitalize()
+            if not surname.isalpha():
+                print('Что- то пошло не так =(')
+                print('Скорее всего вместо букв были использованы цифры.')
+                break
+            k = 0
+            for val in data.values():
+                if val[0] == surname:
+                    k += 1
+            if k >= 2:
+                print('Учащихся с такой фамилие несколько. Уточните Имя')
+                name = input().capitalize()
+                if not name.isalpha():
+                    print('Что- то пошло не так =(')
+                    print('Скорее всего вместо букв были использованы цифры.')
+                    break
+
+            flag = True
+            for key, val in data.items():
+                if k < 2:
+                    if val[0] == surname:
+                        find_key = key
+                        flag = False
+                        break
+                else:
+                    if val[0] == surname and val[1] == name:
+                        find_key = key
+                        flag = False
+                        break
+            if flag:
+                print('Такого учащегося нет')
+                continue
+            print(f'Учащийся(аяся) {data[find_key]}, телефон - {find_key}')
+            print(f'Что хотите изменить: ')
+            print('1. Фамилию')
+            print('2. Имя')
+            print('3. Отчество')
+            print('4. Телефон')
+            try:
+                menu_item = int(input('Выберите пункт меню для продолжения: '))
+
+                if (menu_item < 1) or (menu_item > 4):
+                    print('Что-то пошло не так =(')
+                    print('Некорректно введен пункт меню (значение не попадает в диапозон от 1 до 6). Попробуйте снова.')
+            except ValueError:
+                print('Что-то пошло не так =(')
+                print('Неверно введен пункт меню (необходимо ввести одно целое число). Попробуйте снова')
+
+            match menu_item:
+                case 1:
+                    print('Введите новую фамилию:')
+                    surname = input().capitalize()
+                    if not surname.isalpha():
+                        print('Что- то пошло не так =(')
+                        print('Скорее всего вместо букв были использованы цифры.')
+                        break
+                    data[find_key][0] = surname
+                case 2:
+                    print('Введите новое имя:')
+                    name = input().capitalize()
+                    if not surname.isalpha():
+                        print('Что- то пошло не так =(')
+                        print('Скорее всего вместо букв были использованы цифры.')
+                        break
+                    data[find_key][1] = name
+                case 3:
+                    print('Введите новое отчество:')
+                    second_name = input().capitalize()
+                    if not surname.isalpha():
+                        print('Что- то пошло не так =(')
+                        print('Скорее всего вместо букв были использованы цифры.')
+                        break
+                    data[find_key][2] = second_name
+                case 4:
+                    print('Введите номер телефона: ')
+                    phone_number = input()
+                    # Проверка на ввод цифр
+                    if not phone_number.isdigit():
+                        print('Что- то пошло не так =(')
+                        print('Скорее всего вместо цифр были использованы буквы.')
+                        continue
+                    # Проверка на кол-во цифр в номере
+                    if len(phone_number) != 11:
+                        print('Неправильно веден номер. Кол-во цифр больше или меньше нужного.')
+                        continue
+                    data[phone_number] = data.pop(find_key)
+        elif answer == 'нет':
+            break
+
+        else:
+            print('Что-то пошло не так =(')
+            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
+            continue
+
+    return data
 
 
 def find_phone_number(data: dict):
