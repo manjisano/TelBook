@@ -67,6 +67,7 @@ def check_data(data: dict):
         tab3.add_row(a)
     print(tab3)
 
+    # Возврат в меню
     answer = ''
     while answer != 'да':
         print('Вернуться в меню?(для возврата напишите "да")')
@@ -90,6 +91,7 @@ def new_data(data: dict) -> dict:
 
                 print('Введите ФИО нового учащегося:')
                 surname, name, second_name = input().split()
+
                 # Проверка на ввод букв
                 if not (surname.isalpha() and name.isalpha() and second_name.isalpha()):
                     print('Что- то пошло не так =(')
@@ -98,11 +100,13 @@ def new_data(data: dict) -> dict:
 
                 print('Введите номер телефона: ')
                 phone_number = input()
+
                 # Проверка на ввод цифр
                 if not phone_number.isdigit():
                     print('Что- то пошло не так =(')
                     print('Скорее всего вместо цифр были использованы буквы.')
                     continue
+
                 # Проверка на кол-во цифр в номере
                 if len(phone_number) == 11:
                     break
@@ -110,10 +114,6 @@ def new_data(data: dict) -> dict:
 
             data[phone_number] = [surname.capitalize(), name.capitalize(), second_name.capitalize()]
             print('Ученик успешно добавлен')
-
-            answer = input('Для того, чтобы продолжить нажмите любую клавишу. Для выхода нажмите "1" ').lower()
-            if answer == '1':
-                break
 
         elif answer == 'нет':
             break
@@ -140,14 +140,19 @@ def delete_data(data: dict) -> dict:
 
             print('Введите фамилию учащегося, которого хотите удалить из базы: ')
             surname = input().capitalize()
+
+            # Проверка на ввод букв
             if not surname.isalpha():
                 print('Что- то пошло не так =(')
                 print('Скорее всего вместо букв были использованы цифры.')
                 break
+
+            # Проверка на кол-во учащихся с одинаковой фамилией
             k = 0
             for val in data.values():
                 if val[0] == surname:
                     k += 1
+
             if k >= 2:
                 print('Учащихся с такой фамилие несколько. Уточните Имя')
                 name = input().capitalize()
@@ -156,6 +161,7 @@ def delete_data(data: dict) -> dict:
                     print('Скорее всего вместо букв были использованы цифры.')
                     break
 
+            # Поиск ключа по значению
             flag = True
             for key, val in data.items():
                 if k < 2:
@@ -169,6 +175,7 @@ def delete_data(data: dict) -> dict:
                         flag = False
                         break
 
+            # Удаление учащегося по ключу
             if flag:
                 print('Такого учащегося нет')
             else:
@@ -199,10 +206,14 @@ def change_data(data: dict) -> dict:
         if answer == 'да':
             print('Введите фамилию ')
             surname = input().capitalize()
+
+            # Проверка на ввод букв
             if not surname.isalpha():
                 print('Что- то пошло не так =(')
                 print('Скорее всего вместо букв были использованы цифры.')
                 break
+
+            # Проверка на кол-во учащихся с одинаковой фамилией
             k = 0
             for val in data.values():
                 if val[0] == surname:
@@ -215,6 +226,7 @@ def change_data(data: dict) -> dict:
                     print('Скорее всего вместо букв были использованы цифры.')
                     break
 
+            # Поиск ключа по значению
             flag = True
             for key, val in data.items():
                 if k < 2:
@@ -230,12 +242,16 @@ def change_data(data: dict) -> dict:
             if flag:
                 print('Такого учащегося нет')
                 continue
+
+            # Вывод меню
             print(f'Учащийся(аяся) {data[find_key]}, телефон - {find_key}')
             print(f'Что хотите изменить: ')
             print('1. Фамилию')
             print('2. Имя')
             print('3. Отчество')
             print('4. Телефон')
+
+            # Ввод и проверка на правильность ввода
             try:
                 menu_item = int(input('Выберите пункт меню для продолжения: '))
 
@@ -248,6 +264,7 @@ def change_data(data: dict) -> dict:
 
             match menu_item:
                 case 1:
+                    # Изменение фамилии
                     print('Введите новую фамилию:')
                     surname = input().capitalize()
                     if not surname.isalpha():
@@ -256,6 +273,7 @@ def change_data(data: dict) -> dict:
                         break
                     data[find_key][0] = surname
                 case 2:
+                    # Изменение имени
                     print('Введите новое имя:')
                     name = input().capitalize()
                     if not surname.isalpha():
@@ -264,6 +282,7 @@ def change_data(data: dict) -> dict:
                         break
                     data[find_key][1] = name
                 case 3:
+                    # Изменение отчества
                     print('Введите новое отчество:')
                     second_name = input().capitalize()
                     if not surname.isalpha():
@@ -272,6 +291,7 @@ def change_data(data: dict) -> dict:
                         break
                     data[find_key][2] = second_name
                 case 4:
+                    # Изменение номера телефона
                     print('Введите номер телефона: ')
                     phone_number = input()
                     # Проверка на ввод цифр
@@ -300,19 +320,26 @@ def find_phone_number(data: dict):
     Входные данные:
     data - база данных"""
     while True:
+
         print('Хотите удалить запись?')
         answer = input().lower()
+
         if answer == 'да':
+
             print('Введите фамилию учащегося, чей номер необходимо найти: ')
             surname = input().capitalize()
+
             if not surname.isalpha():
                 print('Что- то пошло не так =(')
                 print('Скорее всего вместо букв были использованы цифры.')
                 break
+
+            # Проверка на кол-во учащихся с одинаковой фамилией
             k = 0
             for val in data.values():
                 if val[0] == surname:
                     k += 1
+
             if k >= 2:
                 print('Учащихся с такой фамилие несколько. Уточните Имя')
                 name = input().capitalize()
@@ -321,6 +348,7 @@ def find_phone_number(data: dict):
                     print('Скорее всего вместо букв были использованы цифры.')
                     break
 
+            # Поиск ключа по значению
             flag = True
             for key, val in data.items():
                 if k < 2:
