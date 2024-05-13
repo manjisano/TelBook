@@ -39,8 +39,8 @@ def check_data():
 
     # Возврат в меню
     answer = ''
-    while answer != 'да':
-        print('Вернуться в меню?(для возврата напишите "да")')
+    while answer != 'y':
+        print('Вернуться в меню?(для возврата напишите "y")')
         answer = input()
 
 
@@ -54,7 +54,7 @@ def find_phone_number():
         print('Хотите найти запись?')
         answer = input().lower()
 
-        if answer == 'да':
+        if answer == 'y':
 
             print('Введите фамилию учащегося, чей номер необходимо найти: ')
             surname = input().capitalize()
@@ -98,10 +98,10 @@ def find_phone_number():
                 print(f'Номер телефона учащегося {surname} - {find_key}')
                 continue
 
-        elif answer == 'нет':
+        elif answer == 'n':
             break
 
         else:
             print('Что-то пошло не так =(')
-            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
+            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(y/n)')
             continue

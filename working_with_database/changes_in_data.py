@@ -11,7 +11,7 @@ def new_data():
         print('Хотите добавить запись?')
         answer = input().lower()
 
-        if answer == 'да':
+        if answer == 'y':
             print('Введите ФИО нового учащегося:')
             surname, name, second_name = input().split()
 
@@ -31,7 +31,7 @@ def new_data():
                 continue
 
             # Проверка на кол-во цифр в номере
-            if len(phone_number) == 11:
+            if len(phone_number) != 11:
                 print('Неправильно веден номер. Кол-во цифр больше или меньше нужного.')
                 continue
 
@@ -39,12 +39,12 @@ def new_data():
             changes_in_file.overwrite(data)
             print('Ученик успешно добавлен')
 
-        elif answer == 'нет':
+        elif answer == 'n':
             break
 
         else:
             print('Что- то пошло не так =(')
-            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
+            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(y/n)')
             continue
 
 
@@ -56,7 +56,7 @@ def delete_data():
     while True:
         print('Хотите удалить запись?')
         answer = input().lower()
-        if answer == 'да':
+        if answer == 'y':
 
             print('Введите фамилию учащегося, которого хотите удалить из базы: ')
             surname = input().capitalize()
@@ -104,12 +104,12 @@ def delete_data():
                 print('Учащийся успешно удален')
                 continue
 
-        elif answer == 'нет':
+        elif answer == 'n':
             break
 
         else:
             print('Что- то пошло не так =(')
-            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
+            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(y/n)')
             continue
 
 
@@ -122,7 +122,7 @@ def change_data():
         print('Хотите изменить запись?')
         answer = input().lower()
 
-        if answer == 'да':
+        if answer == 'y':
             print('Введите фамилию ')
             surname = input().capitalize()
 
@@ -236,11 +236,11 @@ def change_data():
                     data[phone_number] = data.pop(find_key)
 
             changes_in_file.overwrite(data)
-        elif answer == 'нет':
+        elif answer == 'n':
             break
 
         else:
             print('Что-то пошло не так =(')
-            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(да/нет)')
+            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(y/n)')
             continue
 

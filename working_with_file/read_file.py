@@ -3,7 +3,7 @@ def read():
     Выходные данные:
         database - база данных """
 
-    file_name = 'C:/Users/winre/PycharmProjects/KursachCeH9/data.txt'
+    file_name = 'C:/Users/winre/PycharmProjects/TelBook/data.txt'
 
     with open(file_name, 'r') as f:
         ar = f.readlines()
@@ -11,7 +11,7 @@ def read():
     # Разбиение строк на массивы
     new_ar = []
     for i in range(len(ar)):
-        a = ar[i].split('\t')
+        a = ar[i].split()
         new_ar.append([el.rstrip() for el in a])
 
     # Составление словаря из полученных массивов

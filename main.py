@@ -1,7 +1,10 @@
+from working_with_database import *
+
+
 def menu() -> int:
     """Функция вывода меню
     Выходные данные:
-    num - номер пункта меню"""
+    menu_item - номер пункта меню"""
 
     # Вывод меню
     print(' МЕНЮ '.center(40, "─"))
@@ -30,38 +33,19 @@ def menu() -> int:
     return menu_item
 
 
-
-
-
-
-
-
-
-
-
-data = {'89105632512': ['Шарапов', 'Василий', 'Олегович'],
-        '89156214578': ['Кузьмин', 'Иннокентий', 'Алексеевич'],
-        '89201235896': ['Добрынин', 'Фёдор', 'Сергеевич'],
-        '89523215613': ['Сорокин', 'Егор', 'Ильич'],
-        '89156321547': ['Мартышкин', 'Макар', 'Александрович'],
-        '89109029755': ['Рожкин', 'Роман', 'Сергеевич'],
-        '89105632532': ['Маврина', 'Марина', 'Антоновна'],
-        '89206548912': ['Дубинина', 'Евгения', 'Евгеньевич'],
-        '89802364565': ['Сорокин', 'Назар', 'Степанович']}
-
 while True:
     num = menu()
     match num:
         case 1:
-            check_data(data)
+            viewing_data.check_data()
         case 2:
-            data = new_data(data)
+            changes_in_data.new_data()
         case 3:
-            data = delete_data(data)
+            changes_in_data.delete_data()
         case 4:
-            data = change_data(data)
+            changes_in_data.change_data()
         case 5:
-            find_phone_number(data)
+            viewing_data.find_phone_number()
         case 6:
             print('Программа завершает работу')
             break

@@ -3,7 +3,7 @@ def overwrite(database):
     Входные данные:
         database - база данных"""
 
-    file_name = 'C:/Users/winre/PycharmProjects/KursachCeH9/data.txt'
+    file_name = 'C:/Users/winre/PycharmProjects/TelBook/data.txt'
 
     with open(file_name, 'w') as f:
         for key, val in database.items():
