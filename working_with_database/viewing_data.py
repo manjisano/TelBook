@@ -89,3 +89,15 @@ def find_phone_number():
         else:
             print(f'Номер телефона учащегося {surname} - {find_key}')
             break
+
+        print('Хотите продолжить поиск?(да/нет)')
+        answer = input()
+
+        if answer == 'нет':
+            break
+        elif answer == 'да':
+            print('Породолжение...')
+        else:
+            print('Что- то пошло не так =(')
+            print('Ответ неодназначен. Возврат в меню.')
+            break
