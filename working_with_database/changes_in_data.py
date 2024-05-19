@@ -36,7 +36,6 @@ def new_data():
         break
 
 
-
 def delete_data():
     """Функция удаления элемента из базы данных"""
 
@@ -89,7 +88,6 @@ def delete_data():
             changes_in_file.overwrite(data)
             print('Учащийся успешно удален')
             break
-
 
 
 def change_data():
@@ -213,5 +211,3 @@ def change_data():
 
         changes_in_file.overwrite(data)
         break
-
-

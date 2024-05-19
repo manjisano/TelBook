@@ -22,7 +22,7 @@ def check_data():
                        start=0,
                        )
 
-    tab3.field_names = ['Фамилия', 'Имя', 'Отчество','Телефон']
+    tab3.field_names = ['Фамилия', 'Имя', 'Отчество', 'Телефон']
     tab3.align['Фамилия'] = 'l'
     tab3.align['Имя'] = 'с'
     tab3.align['Отчество'] = 'с'
@@ -89,4 +89,3 @@ def find_phone_number():
         else:
             print(f'Номер телефона учащегося {surname} - {find_key}')
             break
-
