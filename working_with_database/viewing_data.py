@@ -38,10 +38,7 @@ def check_data():
     print(tab3)
 
     # Возврат в меню
-    answer = ''
-    while answer != 'y':
-        print('Вернуться в меню?(для возврата напишите "y")')
-        answer = input()
+    input('Нажмите любую кнопку для продолжения. ')
 
 
 def find_phone_number():
@@ -51,57 +48,45 @@ def find_phone_number():
 
     while True:
 
-        print('Хотите найти запись?')
-        answer = input().lower()
+        print('Введите фамилию учащегося, чей номер необходимо найти: ')
+        surname = input().capitalize()
 
-        if answer == 'y':
+        if not surname.isalpha():
+            print('Что- то пошло не так =(')
+            print('Скорее всего вместо букв были использованы цифры.')
+            break
 
-            print('Введите фамилию учащегося, чей номер необходимо найти: ')
-            surname = input().capitalize()
+        # Проверка на кол-во учащихся с одинаковой фамилией
+        k = 0
+        for val in data.values():
+            if val[0] == surname:
+                k += 1
 
-            if not surname.isalpha():
+        if k >= 2:
+            print('Учащихся с такой фамилие несколько. Уточните Имя')
+            name = input().capitalize()
+            if not name.isalpha():
                 print('Что- то пошло не так =(')
                 print('Скорее всего вместо букв были использованы цифры.')
                 break
 
-            # Проверка на кол-во учащихся с одинаковой фамилией
-            k = 0
-            for val in data.values():
+        # Поиск ключа по значению
+        flag = True
+        for key, val in data.items():
+            if k < 2:
                 if val[0] == surname:
-                    k += 1
-
-            if k >= 2:
-                print('Учащихся с такой фамилие несколько. Уточните Имя')
-                name = input().capitalize()
-                if not name.isalpha():
-                    print('Что- то пошло не так =(')
-                    print('Скорее всего вместо букв были использованы цифры.')
+                    find_key = key
+                    flag = False
+                    break
+            else:
+                if val[0] == surname and val[1] == name:
+                    find_key = key
+                    flag = False
                     break
 
-            # Поиск ключа по значению
-            flag = True
-            for key, val in data.items():
-                if k < 2:
-                    if val[0] == surname:
-                        find_key = key
-                        flag = False
-                        break
-                else:
-                    if val[0] == surname and val[1] == name:
-                        find_key = key
-                        flag = False
-                        break
-
-            if flag:
-                print('Такого учащегося нет')
-            else:
-                print(f'Номер телефона учащегося {surname} - {find_key}')
-                continue
-
-        elif answer == 'n':
+        if flag:
+            print('Такого учащегося нет')
+        else:
+            print(f'Номер телефона учащегося {surname} - {find_key}')
             break
 
-        else:
-            print('Что-то пошло не так =(')
-            print('Скорее всего ответ на вопрос неккоректен ответьте однозначно(y/n)')
-            continue
