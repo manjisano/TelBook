@@ -45,6 +45,7 @@ while True:
         case 4:
             changes_in_data.change_data()
         case 5:
+
             viewing_data.find_phone_number()
         case 6:
             print('Программа завершает работу')
