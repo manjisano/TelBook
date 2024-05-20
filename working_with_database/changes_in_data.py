@@ -1,4 +1,5 @@
 from working_with_file import *
+from input import input_surname
 
 
 def new_data():
@@ -7,8 +8,13 @@ def new_data():
     data = read_file.read()
 
     while True:
-        print('Введите ФИО нового учащегося:')
-        surname, name, second_name = input().split()
+        try:
+            print('Введите ФИО нового учащегося:')
+            surname, name, second_name = input().split()
+        except ValueError:
+            print('Что-то пошло не так =(')
+            print('Введите фамилию, имя и отчество через пробел.')
+            continue
 
         # Проверка на ввод букв
         if not (surname.isalpha() and name.isalpha() and second_name.isalpha()):
@@ -41,53 +47,12 @@ def delete_data():
 
     data = read_file.read()
 
-    while True:
+    del_key = input_surname(data)
 
-        print('Введите фамилию учащегося, которого хотите удалить из базы: ')
-        surname = input().capitalize()
-
-        # Проверка на ввод букв
-        if not surname.isalpha():
-            print('Что-то пошло не так =(')
-            print('Скорее всего вместо букв были использованы цифры.')
-            continue
-
-        # Проверка на кол-во учащихся с одинаковой фамилией
-        k = 0
-        for val in data.values():
-            if val[0] == surname:
-                k += 1
-
-        if k >= 2:
-            print('Учащихся с такой фамилие несколько. Уточните Имя')
-            name = input().capitalize()
-            if not name.isalpha():
-                print('Что-то пошло не так =(')
-                print('Скорее всего вместо букв были использованы цифры.')
-                continue
-
-        # Поиск ключа по значению
-        flag = True
-        for key, val in data.items():
-            if k < 2:
-                if val[0] == surname:
-                    del_key = key
-                    flag = False
-                    break
-            else:
-                if val[0] == surname and val[1] == name:
-                    del_key = key
-                    flag = False
-                    break
-
-        # Удаление учащегося по ключу
-        if flag:
-            print('Такого учащегося нет')
-        else:
-            del data[del_key]
-            changes_in_file.overwrite(data)
-            print('Учащийся успешно удален')
-            break
+    # Удаление учащегося по ключу
+    del data[del_key]
+    changes_in_file.overwrite(data)
+    print('Учащийся успешно удален')
 
 
 def change_data():
@@ -97,44 +62,7 @@ def change_data():
 
     while True:
 
-        print('Введите фамилию: ')
-        surname = input().capitalize()
-
-        # Проверка на ввод букв
-        if not surname.isalpha():
-            print('Что- то пошло не так =(')
-            print('Скорее всего вместо букв были использованы цифры.')
-            continue
-
-        # Проверка на кол-во учащихся с одинаковой фамилией
-        k = 0
-        for val in data.values():
-            if val[0] == surname:
-                k += 1
-        if k >= 2:
-            print('Учащихся с такой фамилие несколько. Уточните Имя')
-            name = input().capitalize()
-            if not name.isalpha():
-                print('Что- то пошло не так =(')
-                print('Скорее всего вместо букв были использованы цифры.')
-                continue
-
-        # Поиск ключа по значению
-        flag = True
-        for key, val in data.items():
-            if k < 2:
-                if val[0] == surname:
-                    find_key = key
-                    flag = False
-                    break
-            else:
-                if val[0] == surname and val[1] == name:
-                    find_key = key
-                    flag = False
-                    break
-        if flag:
-            print('Такого учащегося нет')
-            continue
+        find_key = input_surname(data)
 
         # Вывод меню
         print(f'Учащийся(аяся) {data[find_key][0] + " " +  data[find_key][1] + " " + data[find_key][2]}, телефон - {find_key}')
@@ -175,7 +103,7 @@ def change_data():
                 print('Введите новое имя:')
                 name = input().capitalize()
 
-                if not surname.isalpha():
+                if not name.isalpha():
                     print('Что- то пошло не так =(')
                     print('Скорее всего вместо букв были использованы цифры.')
                     continue
@@ -186,7 +114,7 @@ def change_data():
                 print('Введите новое отчество:')
                 second_name = input().capitalize()
 
-                if not surname.isalpha():
+                if not second_name.isalpha():
                     print('Что- то пошло не так =(')
                     print('Скорее всего вместо букв были использованы цифры.')
                     continue

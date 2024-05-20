@@ -1,6 +1,7 @@
 from prettytable import PrettyTable
 
 from working_with_file.read_file import read
+from input import input_surname
 
 
 def check_data():
@@ -48,47 +49,9 @@ def find_phone_number():
 
     while True:
 
-        print('Введите фамилию учащегося, чей номер необходимо найти: ')
-        surname = input().capitalize()
+        find_key = input_surname(data)
 
-        if not surname.isalpha():
-            print('Что- то пошло не так =(')
-            print('Скорее всего вместо букв были использованы цифры.')
-            break
-
-        # Проверка на кол-во учащихся с одинаковой фамилией
-        k = 0
-        for val in data.values():
-            if val[0] == surname:
-                k += 1
-
-        if k >= 2:
-            print('Учащихся с такой фамилие несколько. Уточните Имя')
-            name = input().capitalize()
-            if not name.isalpha():
-                print('Что- то пошло не так =(')
-                print('Скорее всего вместо букв были использованы цифры.')
-                break
-
-        # Поиск ключа по значению
-        flag = True
-        for key, val in data.items():
-            if k < 2:
-                if val[0] == surname:
-                    find_key = key
-                    flag = False
-                    break
-            else:
-                if val[0] == surname and val[1] == name:
-                    find_key = key
-                    flag = False
-                    break
-
-        if flag:
-            print('Такого учащегося нет')
-        else:
-            print(f'Номер телефона учащегося {surname} - {find_key}')
-            break
+        print(f'Номер телефона учащегося {data[find_key][0]} - {find_key}')
 
         print('Хотите продолжить поиск?(да/нет)')
         answer = input()

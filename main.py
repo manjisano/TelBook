@@ -10,7 +10,7 @@ def menu() -> int:
     print(' МЕНЮ '.center(40, "─"))
     print('1. Просмотр всех записей в базе данных')
     print('2. Добавление записей')
-    print('3. Удаление записи по ключу')
+    print('3. Удаление записи')
     print('4. Изменение записи')
     print('5. Поиск необходимой информации')
     print('6. Завершение работы с базой данных\n')
@@ -45,7 +45,6 @@ while True:
         case 4:
             changes_in_data.change_data()
         case 5:
-
             viewing_data.find_phone_number()
         case 6:
             print('Программа завершает работу')
